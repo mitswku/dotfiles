@@ -7,8 +7,11 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git brew bundler gem git-flow pow powder)
 
-# User configuration
+# rbenv
+export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+# User configuration
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -24,10 +27,6 @@ alias gu="gst; ga .; gcmsg 'update'"
 
 # for something
 export EDITOR="emacs"
-
-# rbenv
-export RBENV_ROOT=/usr/local/var/rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # for peco-select-history
 function peco-select-history() {
