@@ -28,3 +28,30 @@ export EDITOR="emacs"
 # rbenv
 export RBENV_ROOT=/usr/local/var/rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# for peco-select-history
+function peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
+    BUFFER=$(\history -n 1 | \
+                    eval $tac | \
+                    peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    zle clear-screen
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+
+# for peco-alias
+function peco-alias(){
+    TARGET_ALIAS=$(alias | peco --query "$LBUFFER")
+    BUFFER=$(echo "$TARGET_ALIAS"|awk -F '=' '{print $1}')
+    CURSOR=$#BUFFER
+    zle clear-screen
+}
+zle -N peco-alias
+bindkey '^@^a' peco-alias
